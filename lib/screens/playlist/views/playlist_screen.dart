@@ -38,16 +38,27 @@ class _PlaylistScreenState extends ConsumerState<PlaylistScreen> {
               return ListTile(
                 onTap: () {
                   ref.read(musicByAlbumProvider.notifier).state = albumList;
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MusicScreen()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MusicScreen(autoPlay: true),
+                    ),
+                  );
                 },
                 leading: ImageWidget(albumList: albumList),
                 title: Text(albumList.first.albumName ?? 'Unknown Album'),
                 subtitle: Text('Artist: ${albumList.first.artistName}'),
                 trailing: IconButton.outlined(
                   onPressed: () {
-                    // กด แล้วเล่นเพลง ทันที ตามอัลบั้ม เรียงจากบนลงล่าง
+                    // เซ็ตเพลงทั้งหมดในอัลบั้ม
+                    ref.read(musicByAlbumProvider.notifier).state = albumList;
+                    // เปิดหน้า MusicScreen และเล่นเพลงแรกทันที
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const MusicScreen(autoPlay: true),
+                      ),
+                    );
                   },
-                  icon: Icon(Icons.play_arrow),
+                  icon: const Icon(Icons.play_arrow),
                 ),
               );
             },

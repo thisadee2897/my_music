@@ -11,7 +11,9 @@ class AlbumNotifer extends StateNotifier<AsyncValue<List<AlbumModel>>> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       var dio = Dio();
-      Response response = await dio.get('https://api.jamendo.com/v3.0/tracks?client_id=f3865169&format=json');
+      Response response = await dio.get('https://api.jamendo.com/v3.0/tracks?client_id=f3865169&format=json&tags=chill,acoustic');
+
+
       if (response.statusCode == 200) {
         List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(response.data['results']);
         return data.map((albumJson) => AlbumModel.fromJson(albumJson)).toList();
